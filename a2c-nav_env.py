@@ -23,8 +23,10 @@ class Environment:
 
 		# make sure that angle is between pi and -pi
 		if(angle_to_goal < -math.pi):
-			return (-angle_to_goal % math.pi) + math.pi
-		return (angle_to_goal % math.pi) - math.pi
+			return angle_to_goal + 2* math.pi
+		if(angle_to_goal > math.pi):
+			return angle_to_goal - 2* math.pi
+		return angle_to_goal
 
 	def get_state(self):
 		return [self.dist_to_goal(), self.angle_to_goal()]
@@ -36,7 +38,7 @@ class Environment:
 
 	def get_reward(self):
 		# reward increases the closer to the goal you are (ie. closer that dist_to_goal == 0)
-		dist_rew = 1 - (self.start_distance / self.dist_to_goal())
+		dist_rew = 1 - (self.dist_to_goal()/self.start_distance)
 
 		#reward increases the more you are facing the goal (ie. closer that angle_to_goal == 0)
 		angle_rew = (math.pi - abs(self.angle_to_goal())) / math.pi
@@ -233,9 +235,9 @@ class A2C:
 
 if __name__ == '__main__':
 	env = Environment()
-	alg = A2C(env, lr=1e-5)
+	alg = A2C(env, lr=1e-6)
 
-	num_iter = 500
+	num_iter = 5#1000
 	horizon = 100
 
 	alg.init()
