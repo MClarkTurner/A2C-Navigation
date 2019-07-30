@@ -237,7 +237,7 @@ if __name__ == '__main__':
 	env = Environment()
 	alg = A2C(env, lr=1e-6)
 
-	num_iter = 5#1000
+	num_iter = 500#1000
 	horizon = 100
 
 	alg.init()
